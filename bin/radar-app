@@ -1,0 +1,50 @@
+#!/usr/bin/env ruby
+
+$: << File.expand_path("../lib/", __FILE__)
+
+
+require 'rubygems' # ruby1.9 doesn't "require" it though
+require 'bundler/setup'
+require 'thor'
+
+
+class MyThorCommand < Thor
+
+  include Thor::Actions
+
+  def self.source_root
+    dir = File.dirname(__FILE__)
+    "#{dir}/../templates"
+  end
+
+  desc "generate", "Generates a new project with the given name"
+  method_option :alias => 'g'
+  def generate(project_name)
+    if File.directory?(project_name.to_s)
+      puts "diretorio ja existe"
+      return
+    end
+
+    empty_directory project_name.to_s
+
+    copy_file 'Gemfile', "#{project_name}/Gemfile"
+    copy_file 'main.rb', "#{project_name}/main.rb"
+    copy_file 'registry_analyzers.rb', "#{project_name}/registry_analyzers.rb"
+  end
+
+  desc 'start_serve', 'Starts the app server'
+  method_option :aliases => 's'
+  def start_server
+    dir_pwd = Dir.pwd
+    #Dir.chdir(dir_pwd)
+    dir_name = File.basename(Dir.getwd)
+    puts "dir_pwd:  #{dir_pwd}"
+    puts "dir_name: #{dir_name}"
+    #exec "#{dir_pwd}/bundle exec ruby main.rb"
+    #exec 'ls'
+    exec 'bundle exec ruby main.rb'
+  end
+
+end
+
+MyThorCommand.start
