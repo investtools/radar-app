@@ -21,7 +21,7 @@ class MyThorCommand < Thor
   method_option :alias => 'g'
   def generate(project_name)
     if File.directory?(project_name.to_s)
-      puts "diretorio ja existe"
+      puts "directory already exists"
       return
     end
 
@@ -35,13 +35,6 @@ class MyThorCommand < Thor
   desc 'start_serve', 'Starts the app server'
   method_option :aliases => 's'
   def start_server
-    dir_pwd = Dir.pwd
-    #Dir.chdir(dir_pwd)
-    dir_name = File.basename(Dir.getwd)
-    puts "dir_pwd:  #{dir_pwd}"
-    puts "dir_name: #{dir_name}"
-    #exec "#{dir_pwd}/bundle exec ruby main.rb"
-    #exec 'ls'
     exec 'bundle exec ruby main.rb'
   end
 
