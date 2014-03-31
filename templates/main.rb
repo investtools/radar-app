@@ -1,4 +1,6 @@
 require 'radar-app'
+require 'radar-api'
+require './registry_analyzers'
 
 handler = RadarApp::AnalyzerController.new
 processor = Radar::API::AnalyzerController::Processor.new(handler)

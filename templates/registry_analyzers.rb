@@ -1,7 +1,5 @@
-AnalyzerController.register_analyzer('benchmark',CMN3922Exposure)
-AnalyzerController.register_analyzer('allocation',CMN3922Exposure)
-AnalyzerController.register_analyzer('rentability-comparison',CMN3922Exposure)
-AnalyzerController.register_analyzer('security-table',CMN3922Exposure)
-AnalyzerController.register_analyzer('compliance-table',CMN3922Exposure)
-AnalyzerController.register_analyzer('cmn3922-exposure',CMN3922Exposure)
-AnalyzerController.register_analyzer('risk-factors',CMN3922Exposure)
+require 'radar-app'
+
+#register your analyzer
+#RadarApp::AnalyzerController.register_analyzer('analyzer_id', AnalyzerClass)
+
