@@ -35,7 +35,7 @@ class MyThorCommand < Thor
   desc 'start_serve', 'Starts the app server'
   method_option :aliases => 's'
   def start_server
-    require 'main.rb'
+    require './main.rb'
     #exec 'bundle exec ruby main.rb'
   end
 
