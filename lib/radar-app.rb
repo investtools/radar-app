@@ -1,6 +1,5 @@
 require "radar/app/version"
 require 'analyzer_controller'
-require 'radar-api'
 
 module RadarApp
   class Server

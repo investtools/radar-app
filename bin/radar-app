@@ -6,8 +6,6 @@ $: << File.expand_path("../lib/", __FILE__)
 require 'rubygems' # ruby1.9 doesn't "require" it though
 require 'bundler/setup'
 require 'thor'
-require 'radar-app'
-
 
 class MyThorCommand < Thor
 
