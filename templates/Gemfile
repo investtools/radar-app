@@ -1,8 +1,7 @@
 # A sample Gemfile
 source "https://rubygems.org"
 
-gem 'radar-api', git: 'https://bitbucket.org/investtools/radar-api.git'
-gem 'radar-app', git: 'https://bitbucket.org/investtools/radar-app.git'
+gem 'radar-app'
 gem 'thin'
 gem 'i18n'
 gem 'active_support'

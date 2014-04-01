@@ -10,7 +10,7 @@ Gem::Specification.new do |spec|
   spec.email         = ["leonardo.mendonca@investtools.com.br"]
   spec.summary       = %q{radar-app generator}
   spec.description   = %q{generates and run a radar-app.}
-  spec.homepage      = ""
+  spec.homepage      = "http://www.investtools.com.br/"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files -z`.split("\x0")
@@ -22,4 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rake"
 
   spec.add_dependency "thor", "~> 0.19"
+  spec.add_dependency "radar-api"
 end
