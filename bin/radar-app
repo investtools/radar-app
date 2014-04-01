@@ -6,6 +6,7 @@ $: << File.expand_path("../lib/", __FILE__)
 require 'rubygems' # ruby1.9 doesn't "require" it though
 require 'bundler/setup'
 require 'thor'
+require 'radar-app'
 
 
 class MyThorCommand < Thor
@@ -17,9 +18,9 @@ class MyThorCommand < Thor
     "#{dir}/../templates"
   end
 
-  desc "generate", "Generates a new project with the given name"
-  method_option :alias => 'g'
-  def generate(project_name)
+  desc "new", "Creates a new project with the given name"
+  method_option :alias => 'n'
+  def new(project_name)
     if File.directory?(project_name.to_s)
       puts "directory already exists"
       return
@@ -28,15 +29,14 @@ class MyThorCommand < Thor
     empty_directory project_name.to_s
 
     copy_file 'Gemfile', "#{project_name}/Gemfile"
-    copy_file 'main.rb', "#{project_name}/main.rb"
-    copy_file 'registry_analyzers.rb', "#{project_name}/registry_analyzers.rb"
+    copy_file 'analyzers_registry.rb', "#{project_name}/analyzers_registry.rb"
   end
 
   desc 'start_serve', 'Starts the app server'
   method_option :aliases => 's'
   def start_server
-    require './main.rb'
-    #exec 'bundle exec ruby main.rb'
+    require './analyzers_registry'
+    RadarApp::Server.start
   end
 
 end
