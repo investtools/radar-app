@@ -27,7 +27,7 @@ class MyThorCommand < Thor
     end
 
     empty_directory project_name.to_s
-
+    copy_file 'main.rb', "#{project_name}/main.rb"
     copy_file 'Gemfile', "#{project_name}/Gemfile"
     copy_file 'analyzers_registry.rb', "#{project_name}/analyzers_registry.rb"
   end
@@ -36,7 +36,7 @@ class MyThorCommand < Thor
   method_option :aliases => 's'
   def start_server
     require './analyzers_registry'
-    RadarApp::Server.start
+    require './main'
   end
 
 end
