@@ -7,7 +7,7 @@ require 'rubygems' # ruby1.9 doesn't "require" it though
 require 'bundler/setup'
 require 'thor'
 
-class MyThorCommand < Thor
+class RadarApp < Thor
 
   include Thor::Actions
 
@@ -16,26 +16,74 @@ class MyThorCommand < Thor
     "#{dir}/../templates"
   end
 
-  desc "new", "Creates a new project with the given name"
+  desc 'new', 'Creates a new project with the given name'
   method_option :alias => 'n'
+  method_option :language, :type => :string, :aliases => "-l", :default => 'ruby',
+                :desc => 'Choose the project language. Available options [Java, Ruby]'
   def new(project_name)
     if File.directory?(project_name.to_s)
-      puts "directory already exists"
+      puts 'directory already exists'
       return
     end
 
-    empty_directory project_name.to_s
-    copy_file 'Gemfile', "#{project_name}/Gemfile"
-    copy_file 'analyzers_registry.rb', "#{project_name}/analyzers_registry.rb"
+    language = options[:language].downcase
+    case language
+      when 'ruby'
+        new_ruby_project project_name
+      when 'java'
+        new_java_project project_name
+      else
+        puts 'language not available'
+    end
   end
 
-  desc 'start_serve', 'Starts the app server'
+  desc 'server', 'Starts the app server'
   method_option :aliases => 's'
-  def start_server
+  def server
     require './analyzers_registry'
     RadarApp::Server.start
   end
 
+  desc 'generate', 'generates an analyzer'
+  method_option :alias => 'g'
+  def generate(command, analzyer_name)
+    case command.to_s.downcase
+      when 'analyzer'
+        generate_analyzer(analzyer_name) if command == 'analyzer'
+      else
+        puts 'invalid command'
+    end
+  end
+
+
+  no_commands do
+    def generate_analyzer(analyzer_name)
+      file_name = "#{analyzer_name}.rb"
+      copy_file 'analyzer.rb', file_name
+
+      names = analyzer_name.split '_'
+      class_name = ''
+      names.each {|name| class_name = class_name + name.capitalize}
+      gsub_file file_name, 'ClassName', class_name
+
+      empty_directory 'spec' unless File.directory?('spec')
+      spec_file_name = "spec/#{analyzer_name}_spec.rb"
+      copy_file 'spec/analyzer_spec.rb', spec_file_name
+      gsub_file spec_file_name, 'file_name', analyzer_name
+      gsub_file spec_file_name, 'ClassName', class_name
+    end
+
+    def new_ruby_project(project_name)
+      empty_directory project_name.to_s
+      copy_file 'Gemfile', "#{project_name}/Gemfile"
+      copy_file 'analyzers_registry.rb', "#{project_name}/analyzers_registry.rb"
+    end
+
+    def new_java_project(project_name)
+      puts "java #{project_name}"
+    end
+  end
+
 end
 
-MyThorCommand.start
+RadarApp.start
