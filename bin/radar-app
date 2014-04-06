@@ -43,7 +43,7 @@ class RadarApp < Thor
   method_option :aliases => 's'
   def server
     require './analyzers_registry'
-    RadarApp::Server.start
+    Radar::App::Server.start
   end
 
   desc 'generate', 'generates an analyzer'
