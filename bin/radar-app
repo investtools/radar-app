@@ -3,7 +3,7 @@
 $: << File.expand_path('../lib/', __FILE__)
 
 
-require 'rubygems' # ruby1.9 doesn't "require" it though
+require 'rubygems'
 require 'bundler/setup'
 require 'thor'
 

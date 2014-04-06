@@ -5,7 +5,7 @@ require 'radar-api'
 module RadarApp
   class Server
     def self.start
-      handler = RadarApp::AnalyzerController.new
+      handler = RadarAnalyzerApp::AnalyzerController.new
       processor = Radar::API::AnalyzerController::Processor.new(handler)
       transport = Thrift::ServerSocket.new(5000)
       transportFactory = Thrift::BufferedTransportFactory.new

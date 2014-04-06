@@ -1,4 +1,4 @@
-module RadarApp
+module RadarAnalyzerApp
   class AnalyzerController
     attr_reader :sessions
 
