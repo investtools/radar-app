@@ -6,7 +6,7 @@ module Radar
   module App
     class Server
       def self.start
-        handler = RadarAnalyzerApp::AnalyzerController.new
+        handler = Radar::App::AnalyzerController.new
         processor = Radar::API::AnalyzerController::Processor.new(handler)
         transport = Thrift::ServerSocket.new(5000)
         transportFactory = Thrift::BufferedTransportFactory.new

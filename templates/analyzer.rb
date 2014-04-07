@@ -15,9 +15,6 @@ class ClassName
   def on_finish(portfolio)
   end
 
-  def create_session(analyzer_id)
-  end
-
   def dump()
   end
 
@@ -25,9 +22,6 @@ class ClassName
   end
 
   def result()
-  end
-
-  def destroy_session()
   end
 
 end
