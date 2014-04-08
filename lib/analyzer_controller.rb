@@ -7,6 +7,10 @@ module Radar
         @sessions = {}
       end
 
+      def analyzers
+        @@analyzers.values.map { |analyzer_class| analyzer_class.new.config }
+      end
+
       def self.register_analyzer(analyzer_id, analyzer_class)
         (@@analyzers ||= {})[analyzer_id] = analyzer_class
       end
@@ -34,11 +38,24 @@ module Radar
       end
 
       def result(session_id)
-        @sessions[session_id].result
+        handle_error do
+          @sessions[session_id].result
+        end
       end
 
       def destroy_session(session_id)
         @sessions.delete(session_id)
+      end
+
+      protected
+
+      def handle_error
+        begin
+          yield
+        rescue => e
+          puts "#{e.class}: #{e.message}"
+          puts e.backtrace
+        end
       end
     end
   end
