@@ -22,5 +22,5 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "guard-rake", "0.0.9"
 
   spec.add_dependency "thor", "~> 0.19"
-  spec.add_dependency "radar-api"
+  spec.add_dependency "radar-api", "0.1.1"
 end
