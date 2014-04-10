@@ -23,4 +23,5 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency "thor", "~> 0.19"
   spec.add_dependency "radar-api"
+  spec.add_dependency "thin", "1.6.2"
 end

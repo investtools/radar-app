@@ -19,6 +19,10 @@ module Radar
         @sessions[session_id].on_each_day(portfolio)
       end
 
+      def on_each_month(session_id, portfolio)
+        @sessions[session_id].on_each_month(portfolio)
+      end
+
       def on_finish(session_id, portfolio)
         @sessions[session_id].on_finish(portfolio)
       end
