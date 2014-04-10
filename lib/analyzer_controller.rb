@@ -8,7 +8,9 @@ module Radar
       end
 
       def analyzers
-        @@analyzers.values.map { |analyzer_class| analyzer_class.new.config }
+        handle_error do
+          @@analyzers.values.map { |analyzer_class| analyzer_class.new.config }
+        end
       end
 
       def self.register_analyzer(analyzer_id, analyzer_class)
@@ -16,29 +18,41 @@ module Radar
       end
 
       def on_each_day(session_id, portfolio)
-        @sessions[session_id].on_each_day(portfolio)
+        handle_error do
+          @sessions[session_id].on_each_day(portfolio)
+        end
       end
 
       def on_each_month(session_id, portfolio)
-        @sessions[session_id].on_each_month(portfolio)
+        handle_error do
+          @sessions[session_id].on_each_month(portfolio)
+        end
       end
 
       def on_finish(session_id, portfolio)
-        @sessions[session_id].on_finish(portfolio)
+        handle_error do
+          @sessions[session_id].on_finish(portfolio)
+        end
       end
 
       def create_session(session_id, analyzer_id)
-        analyzer = @@analyzers[analyzer_id].new
-        @sessions[session_id] = analyzer
-        analyzer.config
+        handle_error do
+          analyzer = @@analyzers[analyzer_id].new
+          @sessions[session_id] = analyzer
+          analyzer.config
+        end
       end
 
       def dump(session_id)
-        @sessions[session_id].dump
+        handle_error do
+          @sessions[session_id].dump
+        end
       end
 
       def resume(session_id, data)
-        @sessions[session_id].resume(data)
+        handle_error do
+          @sessions[session_id].resume(data)
+        end
       end
 
       def result(session_id)
@@ -48,7 +62,9 @@ module Radar
       end
 
       def destroy_session(session_id)
-        @sessions.delete(session_id)
+        handle_error do
+          @sessions.delete(session_id)
+        end
       end
 
       protected
