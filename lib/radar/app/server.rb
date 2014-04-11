@@ -9,7 +9,7 @@ module Radar
         transport = Thrift::ServerSocket.new(5000)
         transportFactory = Thrift::BufferedTransportFactory.new
         server = Thrift::ThreadedServer.new(processor, transport)
-        puts "Starting server..."
+        $stderr.puts "Starting server..."
         server.serve()
       end
     end

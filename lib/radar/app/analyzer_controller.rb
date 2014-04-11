@@ -73,8 +73,9 @@ module Radar
         begin
           yield
         rescue => e
-          puts "#{e.class}: #{e.message}"
-          puts e.backtrace
+          $stderr.puts "#{e.class}: #{e.message}"
+          $stderr.puts e.backtrace
+          $stderr.puts
         end
       end
     end
