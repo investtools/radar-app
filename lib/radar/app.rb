@@ -9,7 +9,7 @@ require 'radar-api'
 module Radar
   module App
     def self.security_service
-      @security_service ||= connection_pool(Radar::API::Security::Client, 9790)
+      @security_service ||= connection_pool(Radar::API::SecurityService::Client, 9790)
     end
 
     def self.index_service
