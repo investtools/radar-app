@@ -1,6 +1,7 @@
 require 'radar/app/version'
 require 'radar/app/core_ext'
 require 'radar/app/analyzer_controller'
+require 'radar/app/server'
 
 require 'connection_pool'
 require 'radar-api'
