@@ -1,6 +1,7 @@
 require 'radar/app/version'
 require 'radar/app/core_ext'
 require 'radar/app/analyzer_controller'
+require 'radar/app/server'
 
 require 'connection_pool'
 require 'radar-api'
@@ -8,7 +9,7 @@ require 'radar-api'
 module Radar
   module App
     def self.security_service
-      @security_service ||= connection_pool(Radar::API::Security::Client, 9790)
+      @security_service ||= connection_pool(Radar::API::SecurityService::Client, 9790)
     end
 
     def self.fund_service
