@@ -11,12 +11,12 @@ module Radar
       @security_service ||= connection_pool(Radar::API::Security::Client, 9790)
     end
 
-    def self.index_service
-      @index_service ||= connection_pool(Radar::API::FundService::Client, 9791)
+    def self.fund_service
+      @fund_service ||= connection_pool(Radar::API::FundService::Client, 9791)
     end
 
-    def self.fund_service
-      @fund_service ||= connection_pool(Radar::API::IndexService::Client, 9792)
+    def self.index_service
+      @index_service ||= connection_pool(Radar::API::IndexService::Client, 9792)
     end
 
     protected
