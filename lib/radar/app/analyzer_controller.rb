@@ -67,6 +67,12 @@ module Radar
         end
       end
 
+      def example_result(session_id)
+        handle_error do
+          @sessions[session_id].example_result
+        end
+      end
+
       protected
 
       def handle_error
