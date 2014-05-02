@@ -42,6 +42,8 @@ class RadarApp < Thor
   desc 'server', 'Starts the app server'
   method_option :aliases => 's'
   def server
+    require 'active_support/dependencies'
+    ActiveSupport::Dependencies.autoload_paths << './analyzers'
     require './analyzers_registry'
     Radar::App::Server.start
   end

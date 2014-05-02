@@ -1,7 +1,10 @@
 module Radar
   module App
     class AnalyzerController
+      include Radar::App::Controller
       attr_reader :sessions
+
+      forward :on_each_month, :on_each_day, :on_finish, :on_cash_flow
 
       def initialize
         @sessions = {}
@@ -17,27 +20,9 @@ module Radar
         (@@analyzers ||= {})[analyzer_id] = analyzer_class
       end
 
-      def on_each_day(session_id, portfolio)
-        handle_error do
-          @sessions[session_id].on_each_day(portfolio)
-        end
-      end
-
-      def on_each_month(session_id, portfolio)
-        handle_error do
-          @sessions[session_id].on_each_month(portfolio)
-        end
-      end
-
-      def on_finish(session_id, portfolio)
-        handle_error do
-          @sessions[session_id].on_finish(portfolio)
-        end
-      end
-
       def create_session(session_id, analyzer_id)
         handle_error do
-          analyzer = @@analyzers[analyzer_id].new
+          analyzer = create_fresh_analyzer(@@analyzers[analyzer_id].name)
           @sessions[session_id] = analyzer
           analyzer.config
         end
@@ -75,14 +60,10 @@ module Radar
 
       protected
 
-      def handle_error
-        begin
-          yield
-        rescue => e
-          $stderr.puts "#{e.class}: #{e.message}"
-          $stderr.puts e.backtrace
-          $stderr.puts
-        end
+      def create_fresh_analyzer(class_name)
+        ActiveSupport::DescendantsTracker.clear
+        ActiveSupport::Dependencies.clear
+        Object.const_get(class_name).new
       end
     end
   end
