@@ -2,68 +2,49 @@ module Radar
   module App
     class AnalyzerController
       include Radar::App::Controller
-      attr_reader :sessions
 
-      forward :on_each_month, :on_each_day, :on_finish, :on_cash_flow
+      forward :on_each_month, :on_each_day, :on_finish,
+      :on_cash_flow, :dump, :resume, :result
 
       def initialize
         @sessions = {}
       end
 
       def analyzers
-        handle_error do
-          @@analyzers.values.map { |analyzer_class| analyzer_class.new.config }
-        end
+        registry.values.map { |analyzer_class| Object.const_get(analyzer_class).new.config }
       end
 
-      def self.register_analyzer(analyzer_id, analyzer_class)
-        (@@analyzers ||= {})[analyzer_id] = analyzer_class
+      def self.<<(analyzer_class)
+        registry[analyzer_class.new.config.id] = analyzer_class.name
       end
 
       def create_session(session_id, analyzer_id)
-        handle_error do
-          analyzer = create_fresh_analyzer(@@analyzers[analyzer_id].name)
-          @sessions[session_id] = analyzer
-          analyzer.config
-        end
-      end
-
-      def dump(session_id)
-        handle_error do
-          @sessions[session_id].dump
-        end
-      end
-
-      def resume(session_id, data)
-        handle_error do
-          @sessions[session_id].resume(data)
-        end
-      end
-
-      def result(session_id)
-        handle_error do
-          @sessions[session_id].result
-        end
-      end
-
-      def destroy_session(session_id)
-        handle_error do
-          @sessions.delete(session_id)
-        end
+        analyzer = create_fresh_analyzer(analyzer_id)
+        @sessions[session_id] = Session.new(analyzer)
+        analyzer.config
       end
 
       def example_result(session_id)
-        handle_error do
-          @sessions[session_id].example_result
+        synchronized(session_id) do
+          @sessions[session_id].analyzer.example_result
         end
       end
 
       protected
 
-      def create_fresh_analyzer(class_name)
-        ActiveSupport::DescendantsTracker.clear
-        ActiveSupport::Dependencies.clear
-        Object.const_get(class_name).new
+      def create_fresh_analyzer(analyzer_id)
+        if Radar::App.env.development?
+          $class_reloader.execute_if_updated
+        end
+        Object.const_get(registry[analyzer_id]).new
+      end
+
+      def registry
+        self.class.registry
+      end
+
+      def self.registry
+        (@@registry ||= {})
       end
     end
   end

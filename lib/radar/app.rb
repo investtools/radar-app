@@ -1,14 +1,30 @@
 require 'radar/app/version'
 require 'radar/app/core_ext'
+require 'radar/app/logger'
+require 'radar/app/session'
 require 'radar/app/controller'
 require 'radar/app/analyzer_controller'
 require 'radar/app/server'
 
-require 'connection_pool'
 require 'radar-api'
+require 'connection_pool'
+require 'thrift_client'
+require 'active_support/string_inquirer'
 
 module Radar
   module App
+    def self.logger=(logger)
+      @logger = logger
+    end
+
+    def self.logger
+      @logger ||= ::Logger.new(STDERR)
+    end
+
+    def self.env
+      @env ||= ActiveSupport::StringInquirer.new(ENV['RADAR_ENV'] || 'development')
+    end
+
     def self.security_service
       @security_service ||= connection_pool(Radar::API::SecurityService::Client, 9790)
     end
@@ -28,11 +44,12 @@ module Radar
     end
 
     def self.connection(client_class, port)
-      host = ENV['DATA_SERVER_HOST'] || '127.0.0.1'
-      transport = Thrift::BufferedTransport.new(Thrift::Socket.new(host, port))
-      protocol = Thrift::BinaryProtocol.new(transport)
-      transport.open
-      client_class.new(protocol)
+      ThriftClient.new(client_class, "#{host}:#{port}",
+        protocol: Thrift::BinaryProtocolAccelerated, retries: 1, server_retry_period: 0)
+    end
+
+    def self.host
+      ENV['DATA_SERVER_HOST'] || '127.0.0.1'
     end
   end
 end

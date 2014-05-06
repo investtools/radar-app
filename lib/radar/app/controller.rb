@@ -5,6 +5,14 @@ module Radar
     module Controller
       
       extend ActiveSupport::Concern
+      include Radar::App::Logger
+      attr_reader :sessions
+
+      def destroy_session(session_id)
+        synchronized(session_id) do
+          @sessions.delete(session_id)
+        end
+      end
 
       module ClassMethods
 
@@ -13,8 +21,9 @@ module Radar
         def forward(*methods)
           methods.each do |method|
             define_method(method) do |session_id, *args|
-              handle_error do
-                @sessions[session_id].send(method, *args)
+              synchronized(session_id) do
+                logger.debug { "[#{session_id}] #{method}(...)" }
+                @sessions[session_id].analyzer.send(method, *args)
               end
             end
           end
@@ -23,15 +32,10 @@ module Radar
 
       protected
 
-      def handle_error
-        begin
-          yield
-        rescue => e
-          $stderr.puts "#{e.class}: #{e.message}"
-          $stderr.puts e.backtrace
-          $stderr.puts
-        end
+      def synchronized(session_id)
+        @sessions[session_id].mutex.synchronize { yield }
       end
+
     end
   end
 end

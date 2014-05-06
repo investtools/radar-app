@@ -26,4 +26,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "thin", "1.6.2"
   spec.add_dependency "connection_pool", "~> 2.0"
   spec.add_dependency "activesupport", "~> 4.1"
+  spec.add_dependency "thrift_client", "~> 0.9"
 end

@@ -8,10 +8,9 @@ module Radar
         handler = Radar::App::AnalyzerController.new
         processor = Radar::API::AnalyzerController::Processor.new(handler)
         transport = Thrift::ServerSocket.new(port)
-        transportFactory = Thrift::BufferedTransportFactory.new
-        server = Thrift::ThreadedServer.new(processor, transport)
-        $stderr.puts "Starting server on port #{port}..."
-        server.serve()
+        server = Thrift::NonblockingServer.new(processor, transport, Thrift::FramedTransportFactory.new)
+        $stderr.puts "Starting app on port #{port}..."
+        server.serve
       end
     end
   end
