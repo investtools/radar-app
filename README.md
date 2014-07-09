@@ -1,29 +1,15 @@
 # Radar::App
 
-TODO: Write a gem description
+Radar::App é um framework para criação de apps para o Radar.
 
-## Installation
+## Documentação
 
-Add this line to your application's Gemfile:
+Para ler a documentação do Radar::App, acesse https://github.com/investtools/radar-app/wiki.
 
-    gem 'radar-app'
+## Que contribuir?
 
-And then execute:
-
-    $ bundle
-
-Or install it yourself as:
-
-    $ gem install radar-app
-
-## Usage
-
-TODO: Write usage instructions here
-
-## Contributing
-
-1. Fork it ( http://github.com/<my-github-username>/radar-app/fork )
-2. Create your feature branch (`git checkout -b my-new-feature`)
-3. Commit your changes (`git commit -am 'Add some feature'`)
-4. Push to the branch (`git push origin my-new-feature`)
-5. Create new Pull Request
+1. Faça um fork ( http://github.com/investtools/radar-app/fork )
+2. Crie sua feature branch (`git checkout -b minha-nova-funcionalidade`)
+3. Faça commit das suas mudanças (`git commit -am 'Adicionando tal funcionalidade'`)
+4. Dê push para o novo branch (`git push origin minha-nova-funcionalidade`)
+5. Faça um Pull Request

@@ -5,6 +5,7 @@ require 'radar/app/session'
 require 'radar/app/controller'
 require 'radar/app/analyzer_controller'
 require 'radar/app/server'
+require 'radar/app/bootstrap'
 
 require 'radar-api'
 require 'connection_pool'
@@ -13,14 +14,6 @@ require 'active_support/string_inquirer'
 
 module Radar
   module App
-    def self.logger=(logger)
-      @logger = logger
-    end
-
-    def self.logger
-      @logger ||= ::Logger.new(STDERR)
-    end
-
     def self.env
       @env ||= ActiveSupport::StringInquirer.new(ENV['RADAR_ENV'] || 'development')
     end

@@ -43,11 +43,7 @@ class RadarApp < Thor
   method_option :aliases => 's'
   def server
     require 'radar-app'
-    require 'active_support/dependencies'
-    require 'active_support/descendants_tracker'
-    ActiveSupport::Dependencies.autoload_paths << './analyzers'
-    require './config/app.rb'
-    Radar::App::Server.start
+    Radar::App::Bootstrap.startup
   end
 
   desc 'generate', 'generates an analyzer'
@@ -77,13 +73,12 @@ class RadarApp < Thor
       copy_file 'spec/analyzer_spec.rb', spec_file_name
       gsub_file spec_file_name, 'file_name', analyzer_name
       gsub_file spec_file_name, 'ClassName', class_name
-
-      #append_to_file 'analyzers_registry.rb', "RadarApp::AnalyzerController.register_analyzer('#{class_name}', '#{class_name}')"
     end
 
     def new_ruby_project(project_name)
       copy_file 'Gemfile', "#{project_name}/Gemfile"
-      copy_file 'analyzers_registry.rb', "#{project_name}/analyzers_registry.rb"
+      template('config/')
+      copy_file 'config/app.rb', "#{project_name}/config/app.rb"
     end
 
     def new_java_project(project_name)
