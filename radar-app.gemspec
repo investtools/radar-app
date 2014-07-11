@@ -6,8 +6,8 @@ require 'radar/app/version'
 Gem::Specification.new do |spec|
   spec.name          = "radar-app"
   spec.version       = Radar::App::VERSION
-  spec.authors       = ["Leonardo Mendonca"]
-  spec.email         = ["leonardo.mendonca@investtools.com.br"]
+  spec.authors       = ["Leonardo Mendonca", "André Aizim Kelmanson"]
+  spec.email         = ["desenvolvimento@investtools.com.br"]
   spec.summary       = %q{radar-app generator}
   spec.description   = %q{generates and run a radar-app.}
   spec.homepage      = "http://www.investtools.com.br/"
@@ -20,6 +20,8 @@ Gem::Specification.new do |spec|
 
   spec.add_development_dependency "bundler", "~> 1.5"
   spec.add_development_dependency "guard-rake", "0.0.9"
+  spec.add_development_dependency "guard-rspec", "4.2"
+  spec.add_development_dependency "rspec", "~> 2.14"
 
   spec.add_dependency "thor", "~> 0.19"
   spec.add_dependency "radar-api", "~> 0.1"

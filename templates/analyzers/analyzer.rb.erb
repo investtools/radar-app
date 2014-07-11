@@ -1,11 +1,11 @@
 require 'radar-api'
 
-class ClassName
+class <%= @class_name %>
 
   def config
     Radar::API::AnalyzerConfig.new(
         result_type: Radar::API::ResultType::TABLE,
-        accepted_events: Set.new([Radar::API::Event::EACH_DAY, Radar::API::Event::EACH_MONTH, Radar::API::Event::FINISH])
+        accepted_events: [Radar::API::Event::EACH_DAY, Radar::API::Event::EACH_MONTH, Radar::API::Event::FINISH].to_set
     )
   end
 
