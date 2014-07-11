@@ -1,5 +1,7 @@
 # Radar::App
 
+[![Build Status](https://travis-ci.org/investtools/radar-app.svg)](https://travis-ci.org/investtools/radar-app)
+
 Radar::App é um framework para criação de apps para o Radar.
 
 ## Documentação
