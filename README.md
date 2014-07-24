@@ -1,6 +1,7 @@
 # Radar::App
 
 [![Build Status](https://travis-ci.org/investtools/radar-app.svg)](https://travis-ci.org/investtools/radar-app)
+[![Code Climate](https://codeclimate.com/github/investtools/radar-app.png)](https://codeclimate.com/github/investtools/radar-app)
 
 Radar::App é um framework para criação de apps para o Radar.
 
