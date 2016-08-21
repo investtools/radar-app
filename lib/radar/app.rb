@@ -42,7 +42,7 @@ module Radar
     end
 
     def self.host
-      ENV['DATA_SERVER_HOST'] || '127.0.0.1'
+      ENV['DATA_SERVER_HOST'] || 'radar.data.1'
     end
   end
 end

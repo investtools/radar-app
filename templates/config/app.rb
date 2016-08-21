@@ -23,3 +23,4 @@ end
 
 Bundler.require(:default, Radar::App.env)
 
+Thrift.type_checking = true unless Radar::App.env.production?

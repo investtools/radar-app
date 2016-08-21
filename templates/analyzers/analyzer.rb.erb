@@ -3,25 +3,33 @@ require 'radar-api'
 class <%= @class_name %>
 
   def config
-    Radar::API::AnalyzerConfig.new(
-        result_type: Radar::API::ResultType::TABLE,
-        accepted_events: [Radar::API::Event::EACH_DAY, Radar::API::Event::EACH_MONTH, Radar::API::Event::FINISH].to_set
+    Thrift::Builder.new(Radar::API::AnalyzerConfig).build(
+      id: '<%= @class_name %>',
+      name: '<%= @class_name %>',
+      result_type: :table,
+      accepted_events: [:each_day, :each_month, :finish]
     )
   end
 
   def on_each_day(portfolio)
   end
 
+  def on_month_day(portfolio)
+  end
+
   def on_finish(portfolio)
   end
 
-  def dump()
+  def dump
   end
 
   def resume(data)
   end
 
-  def result()
+  def example_result
+  end
+
+  def result
   end
 
 end
