@@ -6,6 +6,7 @@ require 'radar/app/controller'
 require 'radar/app/analyzer_controller'
 require 'radar/app/server'
 require 'radar/app/bootstrap'
+require 'radar/app/analyzer'
 
 require 'radar-api'
 require 'connection_pool'
