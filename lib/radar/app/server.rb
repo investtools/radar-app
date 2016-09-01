@@ -8,7 +8,7 @@ module Radar
       
       def start
         handler = Radar::App::AnalyzerController.new
-        processor = Radar::API::AnalyzerController::Processor.new(handler)
+        processor = ProcessorFactory.create_processor(Radar::API::AnalyzerController::Processor.new(handler))
         transport = Thrift::ServerSocket.new(port)
         server = Thrift::NonblockingServer.new(processor, transport, Thrift::FramedTransportFactory.new)
         logger.info { "Starting app on port #{port}..." }
