@@ -13,6 +13,7 @@ require 'radar-api'
 require 'connection_pool'
 require 'thrift_client'
 require 'active_support/string_inquirer'
+require 'active_support/inflector'
 
 module Radar
   module App
@@ -21,26 +22,32 @@ module Radar
     end
 
     def self.security_service
-      @security_service ||= connection_pool(Radar::API::SecurityService::Client, 9790)
+      @security_service ||= connection_pool('SecurityService')
     end
 
     def self.fund_service
-      @fund_service ||= connection_pool(Radar::API::FundService::Client, 9791)
+      @fund_service ||= connection_pool('FundService')
     end
 
     def self.index_service
-      @index_service ||= connection_pool(Radar::API::IndexService::Client, 9792)
+      @index_service ||= connection_pool('IndexService')
     end
 
     protected
 
-    def self.connection_pool(client_class, port)
-      ConnectionPool.new { connection(client_class, port) }
+    def self.connection_pool(client_class)
+      ConnectionPool.new { connection(client_class) }
     end
 
-    def self.connection(client_class, port)
-      ThriftClient.new(client_class, "#{host}:#{port}",
-        protocol: Thrift::BinaryProtocolAccelerated, retries: 1, server_retry_period: 0)
+    def self.connection(service)
+      ThriftClient.new(
+        ActiveSupport::Inflector.constantize("Radar::API::#{service}::Client"),
+        "#{host}:9790",
+        multiplexed_protocol: service,
+        protocol: Thrift::BinaryProtocolAccelerated,
+        retries: 1,
+        server_retry_period: 0
+      )
     end
 
     def self.host

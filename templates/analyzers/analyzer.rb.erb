@@ -1,6 +1,7 @@
 require 'radar-api'
 
 class <%= @class_name %>
+  include Radar::App::Analyzer
 
   def config
     Thrift::Builder.new(Radar::API::AnalyzerConfig).build(
@@ -14,16 +15,10 @@ class <%= @class_name %>
   def on_each_day(portfolio)
   end
 
-  def on_month_day(portfolio)
+  def on_each_month(portfolio)
   end
 
   def on_finish(portfolio)
-  end
-
-  def dump
-  end
-
-  def resume(data)
   end
 
   def example_result
