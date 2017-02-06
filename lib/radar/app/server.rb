@@ -7,10 +7,22 @@ module Radar
       include Radar::App::Logger
       
       def start
-        handler = Radar::App::AnalyzerController.new
-        processor = ProcessorFactory.create_processor(Radar::API::AnalyzerController::Processor).new(handler)
+        multiplexer = Thrift::MultiplexedProcessor.new
+        analyzer_controller = Radar::App::AnalyzerController.new
+        multiplexer.register_processor(
+          'PortfolioAnalyzer',
+          ProcessorFactory.create_processor(Radar::API::AnalyzerController::Processor).
+            new(analyzer_controller)
+        )
+        unless Radar::App.transaction_importer.nil?
+          multiplexer.register_processor(
+            'TransactionImporter',
+            ProcessorFactory.create_processor(Radar::API::TransactionImporter::Processor).
+              new(Radar::App.transaction_importer)
+          )
+        end
         transport = Thrift::ServerSocket.new(port)
-        server = Thrift::NonblockingServer.new(processor, transport, Thrift::FramedTransportFactory.new)
+        server = Thrift::NonblockingServer.new(multiplexer, transport, Thrift::FramedTransportFactory.new)
         logger.info { "Starting app on port #{port}..." }
         server.serve
       end

@@ -21,7 +21,7 @@ module Radar
         def create_basic_files
           copy_file 'Gemfile', "#{app_name}/Gemfile"
           copy_file 'Procfile', "#{app_name}/Procfile"
-          copy_file '.webhook', "#{app_name}/.webhook"
+          copy_file 'DOKKU_SCALE', "#{app_name}/DOKKU_SCALE"
           copy_file 'config/app.rb', "#{app_name}/config/app.rb"
         end
 

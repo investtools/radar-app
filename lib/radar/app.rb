@@ -17,6 +17,15 @@ require 'active_support/inflector'
 
 module Radar
   module App
+
+    def self.transaction_importer
+      @transaction_importer
+    end
+
+    def self.transaction_importer=(ti)
+      @transaction_importer = ti
+    end
+
     def self.env
       @env ||= ActiveSupport::StringInquirer.new(ENV['RADAR_ENV'] || 'development')
     end

@@ -2,9 +2,10 @@ module Radar
   module App
     module Bootstrap
       def self.startup
+        require 'radar-app'
         load_env_config
         load_app_config
-        Radar::App::Server.new(ENV['PORT'] || 5000).start
+        load_initializers
       end
 
       protected
@@ -19,6 +20,10 @@ module Radar
 
       def self.load_app_config
         require './config/app.rb'
+      end
+
+      def self.load_initializers
+        Dir['./config/initializers/**/*.rb'].each { |f| require f }
       end
     end
   end

@@ -1,1 +1,0 @@
-POST http://${RADAR_HOST:-radar.indicativos.com.br}/apps/$APP/up port=$PORT

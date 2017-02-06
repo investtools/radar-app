@@ -6,8 +6,8 @@ module Radar
         namespace :server
 
         def start_server
-          require 'radar-app'
           Radar::App::Bootstrap.startup
+          Radar::App::Server.new(ENV['PORT'] || 5000).start
         end
       end
     end
