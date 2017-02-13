@@ -42,6 +42,10 @@ module Radar
       @index_service ||= connection_pool('IndexService')
     end
 
+    def self.calendar_service
+      @calendar_service ||= connection_pool('CalendarService')
+    end
+
     protected
 
     def self.connection_pool(client_class)
