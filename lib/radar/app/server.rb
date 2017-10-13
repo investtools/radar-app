@@ -21,6 +21,13 @@ module Radar
               new(Radar::App.transaction_importer)
           )
         end
+        unless Radar::App.transaction_file_importer.nil?
+          multiplexer.register_processor(
+            'TransactionFileImporter',
+            ProcessorFactory.create_processor(Radar::API::TransactionFileImporter::Processor).
+              new(Radar::App.transaction_file_importer)
+          )
+        end
         transport = Thrift::ServerSocket.new(port)
         server = Thrift::NonblockingServer.new(multiplexer, transport, Thrift::FramedTransportFactory.new)
         logger.info { "Starting app on port #{port}..." }

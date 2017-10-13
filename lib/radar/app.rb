@@ -26,6 +26,14 @@ module Radar
       @transaction_importer = ti
     end
 
+    def self.transaction_file_importer
+      @transaction_file_importer
+    end
+
+    def self.transaction_file_importer=(ti)
+      @transaction_file_importer = ti
+    end
+
     def self.env
       @env ||= ActiveSupport::StringInquirer.new(ENV['RADAR_ENV'] || 'development')
     end
