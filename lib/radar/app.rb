@@ -67,7 +67,8 @@ module Radar
         multiplexed_protocol: service,
         protocol: Thrift::BinaryProtocolAccelerated,
         retries: 1,
-        server_retry_period: 0
+        server_retry_period: 0,
+        timeout: nil
       )
     end
 
