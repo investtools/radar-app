@@ -58,6 +58,10 @@ module Radar
       @portfolio_service ||= connection_pool('PortfolioService')
     end
 
+    def self.integration_status_service
+      @integration_status_service ||= connection_pool('IntegrationStatusService')
+    end
+
     protected
 
     def self.connection_pool(client_class)
