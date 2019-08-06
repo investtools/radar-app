@@ -29,4 +29,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency "connection_pool", "~> 2.0"
   spec.add_dependency "activesupport", "~> 4.1"
   spec.add_dependency "RaymondChou-thrift_client", "~> 0.9"
+  spec.add_dependency "sigdump", "~> 0.2.4"
 end

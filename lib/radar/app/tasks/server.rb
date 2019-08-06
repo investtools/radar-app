@@ -1,3 +1,5 @@
+require 'sigdump'
+
 module Radar
   module App
     module Tasks
@@ -6,6 +8,7 @@ module Radar
         namespace :server
 
         def start_server
+          Sigdump.setup('TTIN', '-')
           Radar::App::Bootstrap.startup
           Radar::App::Server.new(ENV['PORT'] || 5000).start
         end

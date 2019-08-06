@@ -7,7 +7,7 @@ module Radar
       include Radar::App::Logger
       
       def start
-        multiplexer = Thrift::MultiplexedProcessor.new
+        multiplexer = MultiplexedProcessor.new
         analyzer_controller = Radar::App::AnalyzerController.new
         multiplexer.register_processor(
           'PortfolioAnalyzer',
@@ -28,6 +28,11 @@ module Radar
               new(Radar::App.transaction_file_importer)
           )
         end
+        multiplexer.register_processor(
+          'Healthz',
+          ProcessorFactory.create_processor(Radar::API::Healthz::Processor).
+            new(Radar::App::Healthz.new)
+        )
         transport = Thrift::ServerSocket.new(port)
         server = Thrift::NonblockingServer.new(multiplexer, transport, Thrift::FramedTransportFactory.new)
         logger.info { "Starting app on port #{port}..." }
