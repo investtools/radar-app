@@ -1,5 +1,6 @@
 require 'thrift'
 require 'radar-api'
+require 'radar/api/healthz'
 
 module Radar
   module App
@@ -11,7 +12,7 @@ module Radar
         def status
           transport = Thrift::FramedTransport.new(Thrift::Socket.new('127.0.0.1', ENV['PORT'] || 5000))
           protocol = Thrift::MultiplexedProtocol.new(Thrift::BinaryProtocolAccelerated.new(transport), 'Healthz')
-          client = Radar::API::Healthz::Client.new(protocol)
+          client = Radar::Api::Healthz::Client.new(protocol)
           begin
             transport.open
             client.status
